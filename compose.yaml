@@ -1,0 +1,43 @@
+name: payflow
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: payflow
+      POSTGRES_USER: payflow
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-payflow_local_only}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U payflow -d payflow"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  api:
+    build: .
+    environment: &payment-environment
+      DATABASE_URL: postgresql+psycopg://payflow:${POSTGRES_PASSWORD:-payflow_local_only}@postgres:5432/payflow
+      PAYFLOW_PROVIDER: ${PAYFLOW_PROVIDER:-mock}
+      PAYFLOW_API_TOKEN: ${PAYFLOW_API_TOKEN:-}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-whsec_local_payflow_demo}
+      PAYFLOW_AUTO_WORKER: "false"
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  worker:
+    build: .
+    command: ["python", "-m", "payflow.worker"]
+    environment: *payment-environment
+    depends_on:
+      api:
+        condition: service_healthy
+volumes:
+  postgres-data:

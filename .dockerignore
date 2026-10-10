@@ -1,0 +1,10 @@
+.git
+.venv
+.env
+__pycache__
+.pytest_cache
+*.db
+*.db-shm
+*.db-wal
+node_modules
+benchmark-results.json

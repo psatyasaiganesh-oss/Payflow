@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="PayFlow: explore payment reliability, event recovery, and monitoring in an interactive test-payment workspace.">
+  <meta name="theme-color" content="#6755dc"><title>PayFlow · Payment Reliability Lab</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#overview" aria-label="PayFlow home"><span class="brand-mark">↗</span><span>payflow<span class="brand-dot">.</span></span></a>
+      <div class="workspace"><span class="workspace-icon">G</span><div><strong>Ganesh's workspace</strong><small>Payment reliability lab</small></div><span class="chevron">⌄</span></div>
+      <div class="nav-label">WORKSPACE</div>
+      <nav id="navigation" aria-label="Main navigation"></nav>
+      <div class="sidebar-bottom"><div class="lab-card"><span class="lab-orbit">✦</span><strong>Built to recover.</strong><p>Explore what happens when a payment takes the unexpected path.</p><button class="text-button" data-go="lab">Open reliability lab <span>↗</span></button></div>
+      <button id="connection-button" class="connection"><span class="status-dot"></span><span id="connection-label">Connecting…</span><span>⌁</span></button></div>
+    </aside>
+    <div class="main-shell">
+      <header class="topbar"><button class="mobile-menu icon-button" id="menu-toggle" aria-label="Toggle navigation">☰</button><div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumb">Overview</strong></div><div class="topbar-right"><span class="test-mode">● Test payments</span><span class="avatar" title="Portfolio workspace">G</span></div></header>
+      <main id="main" tabindex="-1"><div class="loading"><span class="spinner"></span> Connecting to your workspace…</div></main>
+      <footer class="page-footer"><span>PayFlow · A payment reliability portfolio project</span><button class="text-button" data-go="guide">Architecture & demo guide ↗</button></footer>
+    </div>
+  </div>
+  <dialog id="modal"><div id="modal-content"></div></dialog>
+  <div class="toast-stack" id="toasts" aria-live="polite"></div>
+  <script src="/assets/config.js"></script><script type="module" src="/assets/app.js"></script>
+</body>
+</html>
